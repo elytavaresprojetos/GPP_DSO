@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="./assets/logo.png" type="image/png">
+    <title>SPDATA - DSO | Diagnóstico Situacional Organizacional</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <img src="assets/Logomarca.png" alt="SPDATA" class="login-logo" onerror="this.onerror=null; this.src='https://www.spdata.com.br/wp-content/uploads/2023/05/logo-spdata.png';">
+            <h2>SPDATA - DSO</h2>
+            <p>GPP - GESTÃO DE PROGRAMAS E PROJETOS</p>
+            <form id="loginForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="loginUser">Usuário</label>
+                    <input type="text" id="loginUser" class="form-control" placeholder="Usuário" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPass">Senha</label>
+                    <input type="password" id="loginPass" class="form-control" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Entrar</button>
+                <div class="login-error" id="loginError"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="appContent" class="hidden">
+        <header class="header">
+            <div class="header-logo">
+                <img src="assets/Logomarca.png" alt="SPDATA" class="logo-spdata-header" onerror="this.onerror=null; this.src='https://www.spdata.com.br/wp-content/uploads/2023/05/logo-spdata.png';">
+                <div class="header-text">
+                    <h1><span class="dso-badge">DSO</span></h1>
+                    <span>Diagnóstico Situacional Organizacional</span>
+                </div>
+            </div>
+            <div class="header-info">
+                <div id="headerDate"></div>
+                <div><strong>SPDATA</strong> | Sistema de Implantação</div>
+                <button id="logoutBtn" class="btn btn-logout">🚪 Sair</button>
+            </div>
+        </header>
+
+        <div class="breadcrumb-info" id="breadcrumbInfo">
+        <div class="breadcrumb-item">
+            <span>🏢</span>
+            <strong>Cliente:</strong>
+            <span id="bcCliente">-</span>
+        </div>
+        <span class="breadcrumb-separator">|</span>
+        <div class="breadcrumb-item">
+            <span>📁</span>
+            <strong>Projeto:</strong>
+            <span id="bcProjeto">-</span>
+        </div>
+        <span class="breadcrumb-separator">|</span>
+        <div class="breadcrumb-item">
+            <span>📄</span>
+            <strong>Módulo:</strong>
+            <span id="bcModulo">-</span>
+        </div>
+        <span class="breadcrumb-separator">|</span>
+        <div class="breadcrumb-item">
+            <span>📅</span>
+            <strong>Data:</strong>
+            <span id="bcData">-</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- TELA 1: Dados Iniciais -->
+        <div class="view active" id="view1">
+            <div class="steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Identificação</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Módulo</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Questionário</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>🏢 Identificação do Cliente e Projeto</h2>
+                    <p>Preencha os dados iniciais para começar o diagnóstico</p>
+                </div>
+                <div class="card-body">
+                    <div class="info-box">
+                        <div class="info-box-icon">
+                            <img src="https://www.spdata.com.br/wp-content/uploads/2023/05/logo-spdata.png" alt="SPDATA" class="logo-spdata" onerror="this.onerror=null; this.parentElement.innerHTML='ℹ️';">
+                        </div>
+                        <div class="info-box-content">
+                            <h4>Bem-vindo ao Sistema DSO | SPDATA</h4>
+                            <p>Preencha os dados de identificação do cliente e projeto para iniciar o Diagnóstico Situacional Organizacional.</p>
+                        </div>
+                    </div>
+
+                    <form id="formIdentificacao" onsubmit="return false;">
+                        <div class="section">
+                            <h3 class="section-title">📋 Dados do Cliente</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Código do Cliente <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="codigoCliente" placeholder="Ex: CLI-001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nome do Cliente <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="nomeCliente" placeholder="Nome completo do cliente/instituição" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Cidade</label>
+                                    <input type="text" class="form-control" id="cidade" placeholder="Cidade">
+                                </div>
+                                <div class="form-group">
+                                    <label>UF</label>
+                                    <select class="form-control" id="uf">
+                                        <option value="">Selecione...</option>
+                                        <option value="AC">AC</option><option value="AL">AL</option>
+                                        <option value="AP">AP</option><option value="AM">AM</option>
+                                        <option value="BA">BA</option><option value="CE">CE</option>
+                                        <option value="DF">DF</option><option value="ES">ES</option>
+                                        <option value="GO">GO</option><option value="MA">MA</option>
+                                        <option value="MT">MT</option><option value="MS">MS</option>
+                                        <option value="MG">MG</option><option value="PA">PA</option>
+                                        <option value="PB">PB</option><option value="PR">PR</option>
+                                        <option value="PE">PE</option><option value="PI">PI</option>
+                                        <option value="RJ">RJ</option><option value="RN">RN</option>
+                                        <option value="RS">RS</option><option value="RO">RO</option>
+                                        <option value="RR">RR</option><option value="SC">SC</option>
+                                        <option value="SP">SP</option><option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h3 class="section-title">📁 Dados do Projeto</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Código do Projeto <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="codigoProjeto" placeholder="Ex: PRJ-2026-001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nome do Projeto <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="nomeProjeto" placeholder="Nome do projeto" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Data <span class="required">*</span></label>
+                                    <input type="date" class="form-control" id="dataProjeto" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Coordenador de Projetos <span class="required">*</span></label>
+                                    <select class="form-control" id="coordenadorProjetos" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Tereza Cristina Alves Barros Mendes">Tereza Cristina Alves Barros Mendes</option>
+                                        <option value="Sergio Campos Lima">Sergio Campos Lima</option>
+                                        <option value="Suede Marize Barbosa Guimarães">Suede Marize Barbosa Guimarães</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Coordenador de Operações <span class="required">*</span></label>
+                                    <select class="form-control" id="coordenadorOperacoes" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Ely Tavares Santos">Ely Tavares Santos</option>
+                                        <option value="Marcos Almeida Andrade Ferreira">Marcos Almeida Andrade Ferreira</option>
+                                        <option value="Pedro Vinícius Santiago do Nascimento">Pedro Vinícius Santiago do Nascimento</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-primary" id="btnProximoModulos" onclick="irParaModulos()">
+                                Próximo: Selecionar Módulo →
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 2: Seleção de Módulo -->
+        <div class="view" id="view2">
+            <div class="steps">
+                <div class="step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Identificação</div>
+                </div>
+                <div class="step-line completed"></div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Módulo</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Questionário</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>📦 Selecione o Módulo do DSO</h2>
+                    <p>Escolha o questionário correspondente ao módulo que será implantado</p>
+                </div>
+                <div class="card-body">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchModulo" placeholder="Buscar módulo... (ex: estoque, faturamento, PEP)" oninput="filtrarModulos()">
+                        </div>
+                        <div class="search-stats" id="searchStats">Carregando módulos...</div>
+                    </div>
+
+                    <div class="category-filter" id="categoryFilter">
+                        <button type="button" class="category-btn active" data-categoria="todos">Todos</button>
+                        <button type="button" class="category-btn" data-categoria="assistencial">Assistencial</button>
+                        <button type="button" class="category-btn" data-categoria="administrativo">Administrativo</button>
+                        <button type="button" class="category-btn" data-categoria="apoio">Apoio</button>
+                        <button type="button" class="category-btn" data-categoria="faturamento">Faturamento</button>
+                        <button type="button" class="category-btn" data-categoria="planos">Planos de Saúde</button>
+                        <button type="button" class="category-btn" data-categoria="tecnologia">Tecnologia</button>
+                    </div>
+
+                    <div class="modules-grid" id="modulosGrid"></div>
+
+                    <div class="no-results" id="noResults" style="display: none;">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>Nenhum módulo encontrado</h3>
+                        <p>Tente buscar por outro termo ou limpe o filtro</p>
+                    </div>
+
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary" onclick="voltarParaIdentificacao()">
+                            ← Voltar
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnIrQuestionario" onclick="irParaQuestionario()" disabled>
+                            Próximo: Iniciar Questionário →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 3: Questionário -->
+        <div class="view" id="view3">
+            <div class="steps">
+                <div class="step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Identificação</div>
+                </div>
+                <div class="step-line completed"></div>
+                <div class="step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Módulo</div>
+                </div>
+                <div class="step-line completed"></div>
+                <div class="step active">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Questionário</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 id="tituloQuestionario">📋 Questionário DSO</h2>
+                    <p id="subtituloQuestionario">Preencha todas as informações do diagnóstico</p>
+                </div>
+                <div class="card-body">
+                    <div id="conteudoQuestionario"></div>
+
+                    <!-- ASSINATURA -->
+                    <div class="signature-section" id="signatureSection">
+                        <div class="signature-local-data" id="localDataAssinatura"></div>
+                        <div class="signature-line"></div>
+                        <div class="signature-nome" id="nomeAssinatura"></div>
+                        <div class="signature-cargo">Coordenador de Operações</div>
+                    </div>
+
+                    <!-- GALERIA DE IMAGENS -->
+                    <div class="image-gallery" id="imageGallery">
+                        <h3>📷 Anexos e Evidências Fotográficas</h3>
+                        <div class="gallery-grid" id="galleryGrid"></div>
+                    </div>
+
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary" onclick="voltarParaModulos()">
+                            ← Voltar
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="adicionarImagem()">
+                            📷 Adicionar Imagem
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="salvarDados()">
+                            💾 Salvar Rascunho
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="exportarPDF()">
+                            📄 Exportar PDF
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="imprimirDSO()">
+                            🖨️ Imprimir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <input type="file" id="fileInputImage" class="file-input-hidden" accept="image/*" multiple onchange="processarImagens(this.files)">
+
+    <script src="app.js"></script>
+</body>
+</html>
