@@ -4163,18 +4163,20 @@ function prepararLogin() {
 
 function carregarUsuarios() {
     // Carregar usuários do arquivo JSON
-    return fetch('users.json')
+    return fetch('assets/users.json')
         .then(response => response.json())
         .then(data => {
             window.usuariosValidos = data.users || [];
             return true;
         })
         .catch(error => {
-            console.warn('Não foi possível carregar usuários de users.json:', error);
+            console.warn('Não foi possível carregar usuários de assets/users.json:', error);
             // Fallback com usuários padrão
             window.usuariosValidos = [
                 { username: 'ely.tavares', password: '123456' },
-                { username: 'pedro.nascimento', password: '123456' }
+                { username: 'pedro.nascimento', password: '123456' },
+                { username: 'marcos.almeida', password: '123456' },
+                { username: 'marcus.walber', password: '123456' }
             ];
             return true;
         });
