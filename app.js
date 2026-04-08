@@ -4114,35 +4114,34 @@ function prepararLogin() {
         loginError.textContent = '';
     }
 
-    // Verificar se já está logado e na rota correta
+    // Verificar se já está logado
     const usuarioLogado = sessionStorage.getItem('spdataUser');
     const token = sessionStorage.getItem('spdataToken');
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const currentPath = window.location.pathname.toLowerCase();
 
-    if (currentPath === '/' || currentPath === '') {
-        window.location.href = '/login';
-        return;
-    }
-
+    // Se está logado, mostrar a aplicação
     if (usuarioLogado && token) {
-        // Verificar se está na rota /dso
-        if (currentPath === '/dso') {
-            mostrarAplicacao();
-            iniciarAplicacao();
-        } else {
-            // Se tem sessão mas não está em /dso, redirecionar
-            window.location.href = '/dso';
+        mostrarAplicacao();
+        iniciarAplicacao();
+        return;
+    }
+
+    // Se está em localhost e não logado, redirecionar para /login
+    if (isLocalhost) {
+        if (currentPath === '/' || currentPath === '') {
+            window.location.href = '/login';
+            return;
         }
-        return;
+
+        if (currentPath === '/dso') {
+            window.location.href = '/login';
+            return;
+        }
     }
 
-    // Se não está logado e está em /dso, redirecionar para /login
-    if (currentPath === '/dso') {
-        window.location.href = '/login';
-        return;
-    }
-
-    // Configurar formulário de login
+    // Se não está logado, manter na tela de login
+    // (para GitHub Pages, a tela de login já está sendo exibida)
     carregarUsuarios()
         .then(() => {
             const loginForm = document.getElementById('loginForm');
@@ -4163,9 +4162,22 @@ function prepararLogin() {
 }
 
 function carregarUsuarios() {
-    // No momento não precisamos tentar validar com credenciais dummy.
-    // O login será validado diretamente na função validarLogin via API.
-    return Promise.resolve();
+    // Carregar usuários do arquivo JSON
+    return fetch('users.json')
+        .then(response => response.json())
+        .then(data => {
+            window.usuariosValidos = data.users || [];
+            return true;
+        })
+        .catch(error => {
+            console.warn('Não foi possível carregar usuários de users.json:', error);
+            // Fallback com usuários padrão
+            window.usuariosValidos = [
+                { username: 'ely.tavares', password: '123456' },
+                { username: 'pedro.nascimento', password: '123456' }
+            ];
+            return true;
+        });
 }
 
 function validarLogin() {
@@ -4180,38 +4192,31 @@ function validarLogin() {
         return;
     }
 
-    // Fazer requisição para API de login
-    fetch('/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: usuario,
-            password: senha
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Login bem-sucedido
-            sessionStorage.setItem('spdataUser', usuario);
-            sessionStorage.setItem('spdataToken', data.token);
+    // Validar credenciais localmente
+    const usuarioValido = window.usuariosValidos?.find(u => u.username === usuario && u.password === senha);
 
-            // Redirecionar para /dso
+    if (usuarioValido) {
+        // Login bem-sucedido
+        sessionStorage.setItem('spdataUser', usuario);
+        sessionStorage.setItem('spdataToken', 'token-' + Date.now());
+
+        // Limpar os campos
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+        
+        // Se estiver em localhost, redirecionar para /dso
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             window.location.href = '/dso';
         } else {
-            if (loginError) {
-                loginError.textContent = data.message || 'Usuário ou senha inválidos.';
-            }
+            // Se estiver em GitHub Pages, apenas mostrar a tela principal
+            mostrarAplicacao();
+            iniciarAplicacao();
         }
-    })
-    .catch(error => {
-        console.error('Erro no login:', error);
+    } else {
         if (loginError) {
-            loginError.textContent = 'Erro de conexão. Tente novamente.';
+            loginError.textContent = 'Usuário ou senha inválidos.';
         }
-    });
+    }
 }
 
 function mostrarAplicacao() {
