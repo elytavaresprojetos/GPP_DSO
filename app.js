@@ -4090,7 +4090,130 @@ const MODULOS = {
                 colunas: ["ITEM", "QTDE EXISTENTE", "QTDE A ADQUIRIR", "DATA PREVISTA"]
             }
         ]
+    },
+
+    // ============================================================
+    // MÓDULO 32: CARTÃO DESCONTO
+    // ============================================================
+    "cartao_desconto": {
+        id: "cartao_desconto",
+        titulo: "Cartão Desconto",
+        icone: "💳",
+        categoria: "planos",
+        descricao: "Gestão de cartões de desconto e benefícios",
+        setor: "operadora",
+        objetivo: "Realizar o Diagnóstico Situacional Organizacional para implantação da solução Cartão Desconto na instituição.",
+        secoes: [
+            {
+                id: "profissionais_entrevistados",
+                titulo: "👥 Profissionais Entrevistados",
+                descricao: "Listar os participantes da entrevista",
+                tipo: "tabela",
+                colunas: [
+                    { id: "nome", label: "Nome", tipo: "text", width: "25%" },
+                    { id: "setor", label: "Setor", tipo: "text", width: "20%" },
+                    { id: "cargo", label: "Cargo", tipo: "text", width: "20%" },
+                    { id: "telefone", label: "Telefone", tipo: "tel", width: "15%" },
+                    { id: "email", label: "E-mail", tipo: "email", width: "20%" }
+                ]
+            },
+            {
+                id: "situacao_atual",
+                titulo: "📋 Situação Atual e Fluxos de Processo",
+                tipo: "campos",
+                campos: [
+                    { id: "descricao_processo", label: "Descrever como são realizados os processos atualmente", tipo: "textarea", rows: 5 }
+                ]
+            },
+            {
+                id: "pontos_atencao",
+                titulo: "⚠️ Pontos de Atenção no Processo",
+                tipo: "campos",
+                campos: [
+                    { id: "pontos_atencao", label: "Descrever situações observadas que podem impactar o processo de implantação", tipo: "textarea", rows: 4 }
+                ]
+            },
+            {
+                id: "matriz_raci",
+                titulo: "📊 Matriz RACI",
+                descricao: "Usada para esclarecer as funções e responsabilidades dos funcionários para cada tarefa e decisão que ocorrem ao longo do projeto",
+                tipo: "campos",
+                campos: [
+                    { id: "responsavel", label: "Responsável (Quem é responsável por trabalhar na tarefa?)", tipo: "text" },
+                    { id: "aprovador", label: "Aprovador (Quem tem autoridade para aprovar a tarefa ou etapa?)", tipo: "text" },
+                    { id: "consultado", label: "Consultado (Quem deve ser consultado para participar da tarefa?)", tipo: "text" },
+                    { id: "informado", label: "Informado (Quem deve ser informado a respeito do status da tarefa?)", tipo: "text" }
+                ]
+            },
+            {
+                id: "responsavel",
+                titulo: "👤 Dados do Responsável pelo Setor",
+                tipo: "campos",
+                campos: [
+                    { id: "resp_nome", label: "Nome Completo", tipo: "text" },
+                    { id: "resp_cargo", label: "Cargo", tipo: "text" },
+                    { id: "resp_telefone", label: "Telefone com DDD", tipo: "tel" },
+                    { id: "resp_email", label: "E-mail", tipo: "email" },
+                    { id: "resp_observacao", label: "Observação", tipo: "textarea", rows: 2 }
+                ]
+            },
+            {
+                id: "multiplicador",
+                titulo: "🎓 Profissional Multiplicador",
+                descricao: "Profissional a ser certificado pela SPDATA",
+                tipo: "campos",
+                campos: [
+                    { id: "mult_nome", label: "Nome Completo", tipo: "text" },
+                    { id: "mult_cargo", label: "Cargo", tipo: "text" },
+                    { id: "mult_telefone", label: "Telefone com DDD", tipo: "tel" },
+                    { id: "mult_email", label: "E-mail", tipo: "email" }
+                ]
+            },
+            {
+                id: "colaboradores",
+                titulo: "👥 Colaboradores do Setor",
+                tipo: "tabela",
+                colunas: [
+                    { id: "nome", label: "Nome Completo", tipo: "text", width: "40%" },
+                    { id: "telefone", label: "Telefone com DDD", tipo: "tel", width: "25%" },
+                    { id: "email", label: "E-mail", tipo: "email", width: "35%" }
+                ]
+            },
+            {
+                id: "entrevista",
+                titulo: "📝 Entrevista",
+                tipo: "perguntas",
+                perguntas: [
+                    { id: "horario_funcionamento", label: "Horário de funcionamento?", tipo: "text" },
+                    { id: "horario_funcionamento_obs", label: "Observação", tipo: "textarea", rows: 2 },
+                    { id: "possui_equipamentos", label: "Possui computadores e impressoras?", tipo: "radio", opcoes: ["Sim", "Não"] },
+                    { id: "qtd_computadores", label: "Quantidade de computadores", tipo: "number" },
+                    { id: "qtd_impressoras_laser", label: "Quantidade de impressoras Laser", tipo: "number" },
+                    { id: "aquisicoes_necessarias", label: "Necessidade de aquisições", tipo: "textarea", rows: 3 },
+                    { id: "qtd_cartoes", label: "Qual a quantidade estimada de cartões de desconto emitidos mensalmente?", tipo: "text" },
+                    { id: "qtd_cartoes_obs", label: "Observação", tipo: "textarea", rows: 2 },
+                    { id: "tipos_desconto", label: "Quais tipos de desconto são oferecidos?", tipo: "checkbox", opcoes: ["Percentual", "Valor Fixo", "Parcelado", "Outros"] },
+                    { id: "tipos_desconto_obs", label: "Observação", tipo: "textarea", rows: 2 },
+                    { id: "sistema_atual", label: "Existe sistema atual para gestão de cartões?", tipo: "radio", opcoes: ["Sim", "Não"] },
+                    { id: "sistema_atual_obs", label: "Observação", tipo: "textarea", rows: 2 },
+                    { id: "relatorios_utilizados", label: "Quais relatórios são utilizados atualmente?", tipo: "textarea", rows: 3 },
+                    { id: "indicadores_utilizados", label: "Quais indicadores são utilizados atualmente?", tipo: "textarea", rows: 3 }
+                ]
+            },
+            {
+                id: "plano_aquisicao",
+                titulo: "🛒 Plano de Aquisição - Cartão Desconto",
+                tipo: "tabela_fixa",
+                itens: [
+                    { id: "computador", label: "COMPUTADOR" },
+                    { id: "impressora_laser", label: "IMPRESSORA LASER" },
+                    { id: "impressora_cartao", label: "IMPRESSORA DE CARTÃO" }
+                ],
+                colunas: ["ITEM", "QTDE EXISTENTE", "QTDE A ADQUIRIR", "DATA PREVISTA"]
+            }
+        ]
     }
+
 };
 
 // Fecha o objeto MODULOS
