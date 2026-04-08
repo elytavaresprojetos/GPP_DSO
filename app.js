@@ -4275,7 +4275,16 @@ function logout() {
     sessionStorage.removeItem('spdataToken');
 
     // Redirecionar para a página de login
-    window.location.href = '/LOGIN';
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+        window.location.href = '/login';
+        return;
+    }
+
+    // GitHub Pages: redireciona para a raiz do repositório
+    const currentPath = window.location.pathname;
+    const rootPath = currentPath.replace(/\/[^\/]*$/, '/') || '/';
+    window.location.href = rootPath;
 }
 
 /**
