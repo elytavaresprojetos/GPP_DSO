@@ -70,7 +70,7 @@ app.post('/api/login', (req, res) => {
     const path = require('path');
 
     try {
-        const usersPath = path.join(__dirname, 'assets', 'users.json');
+        const usersPath = path.join(__dirname, 'users.json');
         const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
         const users = usersData.users || [];
 
